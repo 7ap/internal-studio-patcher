@@ -4,4 +4,12 @@ version = "0.0.0"
 edition = "2021"
 publish = false
 
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true
+codegen-units = 1
+
 [dependencies]
+clap = { version = "4.4", features = ["derive"] }
+winreg = "0.51"
