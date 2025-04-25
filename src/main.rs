@@ -1,19 +1,10 @@
+mod stagescan;
 use std::fs;
 use std::path::PathBuf;
 use std::time::Instant;
 
 use clap::Parser;
 use winreg::{enums::HKEY_CLASSES_ROOT, RegKey};
-
-#[rustfmt::skip]
-const SIGNATURE: &[u8] = &[
-    0x48, 0x81, 0xEC, 0x40, 0x03, 0x00, 0x00, 0x84, 0xD2, 0x74, 0x05, 0xE8
-];
-
-#[rustfmt::skip]
-const PATCH: &[u8] = &[
-    0x48, 0x81, 0xEC, 0x40, 0x03, 0x00, 0x00, 0x84, 0xD2, 0x90, 0x90, 0xE8
-];
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -23,15 +14,8 @@ struct Cli {
 }
 
 fn patch(input: &PathBuf, output: &PathBuf) {
-    let mut binary = fs::read(input).expect("Could not read input file.");
-
-    let offset = binary
-        .windows(SIGNATURE.len())
-        .position(|window| window == SIGNATURE)
-        .expect("Could not find signature.");
-
-    binary[offset..offset + PATCH.len()].copy_from_slice(PATCH);
-    fs::write(output, binary).expect("Could not write output file.");
+    let input = fs::read(input).unwrap();
+    stagescan::start(input, output);
 }
 
 fn main() {

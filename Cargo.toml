@@ -12,4 +12,6 @@ codegen-units = 1
 
 [dependencies]
 clap = { version = "4.4", features = ["derive"] }
+iced-x86 = "1.21.0"
+goblin = "0.9.3"
 winreg = "0.51"
