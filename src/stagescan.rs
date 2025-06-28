@@ -106,7 +106,7 @@ pub fn start(mut input: Vec<u8>, output: &PathBuf) {
         input[offset..offset + len].fill(0x90);
         std::fs::write(output, &input).unwrap();
     } else {
-        eprintln!("Error: Could not find the address to patch. Please report to https://github.com/7ap/internal-studio-patcher/issues");
+        eprintln!("Error: Could not find the address to patch (have you already patched studio?). Please report to https://github.com/7ap/internal-studio-patcher/issues");
         std::process::exit(1);
     }
 }
